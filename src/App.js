@@ -3,6 +3,7 @@ import './App.css';
 import CallerBots from './Components/CallerBots';
 import Navbar from './Components/Navbar';
 
+
 function App() {
   return (
     <>
@@ -10,6 +11,7 @@ function App() {
 
       <Navbar/>
       <CallerBots/>
+      
     </div>
     </>
   );
