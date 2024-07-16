@@ -7,23 +7,31 @@ export default function CallerBots() {
 
   useEffect(() => {
     if (window.SpeechRecognition || window.webkitSpeechRecognition) {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      recognition.lang = 'en-US'; 
+      const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition)();
+      recognition.lang = "en-US";
 
       const startRecognition = () => {
         recognition.start();
         recognition.onresult = (event) => {
           const newTranscript = event.results[0][0].transcript;
           setTranscript(newTranscript);
-          recognition.stop(); 
+          recognition.stop();
         };
       };
+      const stoprecognition = () => {
+        recognition.stop();
+      };
 
-      
-      document.getElementById("start-call-btn").addEventListener("click", startRecognition);
+      document
+        .getElementById("start-call-btn")
+        .addEventListener("click", startRecognition);
+      document
+        .getElementById("stop-call-btn")
+        .addEventListener("click", stoprecognition);
 
       return () => {
-        recognition.abort(); 
+        recognition.abort();
       };
     } else {
       console.error("Speech Recognition is not supported by your browser.");
@@ -39,12 +47,27 @@ export default function CallerBots() {
         <hr />
         <div>
           {people.map((person) => (
-            <div key={person.id} className="person" onClick={() => setSelectedPerson(person)}>
+            <div
+              key={person.id}
+              className="person"
+              onClick={() => setSelectedPerson(person)}
+            >
               <button className="btn2">
                 <h3>{person.name}</h3>
                 <p>{person.occupation}</p>
-                <button className="btn" style={{ fontSize: "12px", padding: "10px" }} id="start-call-btn">
+                <button
+                  className="btn"
+                  style={{ fontSize: "12px", padding: "10px" }}
+                  id="start-call-btn"
+                >
                   Start Call
+                </button>
+                <button
+                  className="btn"
+                  style={{ fontSize: "12px", padding: "10px", margin: "1rem" }}
+                  id="stop-call-btn"
+                >
+                  stop Call
                 </button>
               </button>
             </div>
@@ -57,6 +80,8 @@ export default function CallerBots() {
             <h2>{selectedPerson.name}</h2>
             <p>{selectedPerson.occupation}</p>
             <p>{selectedPerson.details}</p>
+            <br />
+            <h5>Converted Text: {transcript}</h5>
           </>
         ) : (
           <div>
@@ -66,7 +91,6 @@ export default function CallerBots() {
             <br />
           </div>
         )}
-        <p>Converted Text: {transcript}</p>
       </div>
     </>
   );
